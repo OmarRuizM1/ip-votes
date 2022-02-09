@@ -1,14 +1,23 @@
 package com.ip.votes.manager
 
+import com.ip.votes.api.ProxyApi
+import com.ip.votes.dto.URLDto
+import com.ip.votes.services.AppVoteService
 import org.springframework.stereotype.Component
-import com.ip.votes.services.Top100VoteAppService
-import com.ip.votes.services.Top100VoteService
 
 @Component
-class IpVoteManager(private val top100VoteAppService: Top100VoteAppService, private val top100VoteService: Top100VoteService) {
+class IpVoteManager(private val appVoteServices: List<AppVoteService>, private val proxyApi: ProxyApi) {
 
     fun run() {
-        val noMoreProxies = top100VoteAppService.run()
-        if (noMoreProxies) top100VoteService.run()
+        val proxies = proxyApi.findAllNotUsed().execute().body()
+
+        if (proxies.isNullOrEmpty()) {
+            println("No More Proxies Bro")
+            return
+        }
+        val proxy = proxies.first()!!
+//        println("Trying Request With: ${proxy.url}")
+        proxyApi.updateUsedProxy(URLDto(proxy.url)).execute().body()
+        appVoteServices.parallelStream().forEach { it.vote(proxy) }
     }
 }
