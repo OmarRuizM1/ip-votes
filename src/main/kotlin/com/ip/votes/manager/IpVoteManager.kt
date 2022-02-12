@@ -9,14 +9,13 @@ import org.springframework.stereotype.Component
 class IpVoteManager(private val appVoteServices: List<AppVoteService>, private val proxyApi: ProxyApi) {
 
     fun run() {
-        val proxies = proxyApi.findAllNotUsed().execute().body()
+        val proxy = proxyApi.findFirstNotUsedWithPortHTTP().execute().body()
 
-        if (proxies.isNullOrEmpty()) {
+        if (proxy == null) {
             println("No More Proxies Bro")
             return
         }
-        val proxy = proxies.first()!!
-//        println("Trying Request With: ${proxy.url}")
+
         proxyApi.updateUsedProxy(URLDto(proxy.url)).execute().body()
         appVoteServices.parallelStream().forEach { it.vote(proxy) }
     }

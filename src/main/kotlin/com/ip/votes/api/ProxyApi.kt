@@ -27,6 +27,12 @@ interface ProxyApi {
     @GET("/proxy/api/findAllNotUsedWithPort8080")
     fun findAllNotUsedWithPort8080(): Call<List<Proxy?>?>
 
+    @GET("/proxy/api/findAllNotUsedWithProtocolHTTP")
+    fun findAllNotUsedWithProtocolHTTP(): Call<List<Proxy?>?>
+
+    @GET("/proxy/api/findFirstNotUsedWithPortHTTP")
+    fun findFirstNotUsedWithPortHTTP(): Call<Proxy?>
+
     @POST("/proxy/api/updateUsedProxy")
     fun updateUsedProxy(@Body urlDto: URLDto): Call<Void>
 
