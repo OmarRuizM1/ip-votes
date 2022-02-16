@@ -7,7 +7,7 @@ import com.ip.votes.manager.IpVoteManager
 @Component
 class IpVoteRobot(private val ipVoteManager: IpVoteManager) {
 
-    @Scheduled(fixedRate = 3000)
+    @Scheduled(fixedRate = 2000)
     fun run (){
         ipVoteManager.run()
     }

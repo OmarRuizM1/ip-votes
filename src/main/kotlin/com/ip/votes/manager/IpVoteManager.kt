@@ -8,11 +8,14 @@ import org.springframework.stereotype.Component
 @Component
 class IpVoteManager(private val appVoteServices: List<AppVoteService>, private val proxyApi: ProxyApi) {
 
+    var count = 0
+
     fun run() {
         val proxy = proxyApi.findFirstNotUsedWithPortHTTP().execute().body()
 
         if (proxy == null) {
-            println("No More Proxies Bro")
+            count++
+            if (count < 6) println("_-¯-_-¯-_-¯-_-NO MORE PROXIES BRO-_-¯-_-¯-_-¯-_")
             return
         }
 

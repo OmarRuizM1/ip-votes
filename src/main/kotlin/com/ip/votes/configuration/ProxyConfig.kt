@@ -8,6 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.ip.votes.api.ProxyApi
 import com.ip.votes.api.ProxyAppApi
+import com.ip.votes.utils.CustomNullOrEmptyFactory
 
 @Configuration
 class ProxyConfig(@Value("\${proxyApiHost}") val proxyApiHost: String) {
@@ -16,6 +17,7 @@ class ProxyConfig(@Value("\${proxyApiHost}") val proxyApiHost: String) {
     fun getProxyApi(): ProxyApi {
         return Retrofit.Builder()
             .baseUrl(proxyApiHost)
+            .addConverterFactory(CustomNullOrEmptyFactory())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build().create(ProxyApi::class.java)
     }
@@ -24,6 +26,7 @@ class ProxyConfig(@Value("\${proxyApiHost}") val proxyApiHost: String) {
     fun getProxyAppApi(): ProxyAppApi {
         return Retrofit.Builder()
             .baseUrl(proxyApiHost)
+            .addConverterFactory(CustomNullOrEmptyFactory())
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
             .build().create(ProxyAppApi::class.java)
     }
