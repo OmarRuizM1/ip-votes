@@ -6,11 +6,11 @@ import com.ip.votes.services.AppVoteService
 import org.springframework.stereotype.Component
 
 @Component
-class IpVoteManager(private val appVoteServices: List<AppVoteService>, private val proxyApi: ProxyApi) {
+class IpVoteManager(private val appVoteServices: List<AppVoteService>, private val proxyApi: ProxyApi) : VoteManager{
 
     var count = 0
 
-    fun run() {
+    override fun run() {
         val proxy = proxyApi.findFirstNotUsedWithPortHTTP().execute().body()
 
         if (proxy == null) {

@@ -36,4 +36,7 @@ interface ProxyApi {
     @POST("/proxy/api/updateUsedProxy")
     fun updateUsedProxy(@Body urlDto: URLDto): Call<Void>
 
+    @GET("/proxy/api/bulkUpdateUsedFalse")
+    fun bulkUpdateUsedFalse(): Call<Void>
+
 }
